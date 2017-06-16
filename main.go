@@ -8,6 +8,7 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/bitrise-community/steps-cordova-archive/cordova"
 	"github.com/bitrise-community/steps-ionic-archive/ionic"
 	"github.com/bitrise-io/go-utils/colorstring"
 	"github.com/bitrise-io/go-utils/command"
@@ -288,6 +289,7 @@ func main() {
 
 	// Fulfill ionic builder
 	builder := ionic.New(ionicMajorVersion)
+	cordovaBuilder := cordova.New()
 
 	platforms := []string{}
 	if configs.Platform != "" {
@@ -297,10 +299,14 @@ func main() {
 		}
 
 		builder.SetPlatforms(platforms...)
+		cordovaBuilder.SetPlatforms(platforms...)
 	}
 
 	builder.SetConfiguration(configs.Configuration)
 	builder.SetTarget(configs.Target)
+
+	cordovaBuilder.SetConfiguration(configs.Configuration)
+	cordovaBuilder.SetTarget(configs.Target)
 
 	if configs.Options != "" {
 		options, err := shellquote.Split(configs.Options)
@@ -309,9 +315,11 @@ func main() {
 		}
 
 		builder.SetCustomOptions(options...)
+		cordovaBuilder.SetCustomOptions(options...)
 	}
 
 	builder.SetBuildConfig(configs.BuildConfig)
+	cordovaBuilder.SetBuildConfig(configs.BuildConfig)
 
 	// ionic prepare
 	fmt.Println()
@@ -353,14 +361,25 @@ func main() {
 	fmt.Println()
 	log.Infof("Building project")
 
-	buildCmd := builder.BuildCommand()
-	buildCmd.SetStdout(os.Stdout)
-	buildCmd.SetStderr(os.Stderr)
-	buildCmd.SetStdin(strings.NewReader("y"))
+	// buildCmd := builder.BuildCommand()
+	// buildCmd.SetStdout(os.Stdout)
+	// buildCmd.SetStderr(os.Stderr)
+	// buildCmd.SetStdin(strings.NewReader("y"))
 
-	log.Donef("$ %s", buildCmd.PrintableCommandArgs())
+	// log.Donef("$ %s", buildCmd.PrintableCommandArgs())
 
-	if err := buildCmd.Run(); err != nil {
+	// if err := buildCmd.Run(); err != nil {
+	// 	fail("ionic failed, error: %s", err)
+	// }
+
+	cordovaBuildCmd := cordovaBuilder.BuildCommand()
+	cordovaBuildCmd.SetStdout(os.Stdout)
+	cordovaBuildCmd.SetStderr(os.Stderr)
+	cordovaBuildCmd.SetStdin(strings.NewReader("y"))
+
+	log.Donef("$ %s", cordovaBuildCmd.PrintableCommandArgs())
+
+	if err := cordovaBuildCmd.Run(); err != nil {
 		fail("ionic failed, error: %s", err)
 	}
 
