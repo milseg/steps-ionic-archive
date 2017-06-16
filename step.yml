@@ -83,7 +83,7 @@ inputs:
         - `--browserify`
 
         `ionic cordova build [OTHER_PARAMS] [options]`
-  - cordova_version: 
+  - cordova_version: latest
     opts:
       title: "Cordova version"
       description: |-
@@ -91,7 +91,7 @@ inputs:
 
         If value is set to `latest`, the step will update to the latest cordova version.
         Leave this input empty to use the preinstalled cordova version.
-  - ionic_version: 
+  - ionic_version: latest
     opts:
       title: "Ionic version"
       description: |-
@@ -115,6 +115,6 @@ outputs:
   - BITRISE_DSYM_PATH:
     opts:
       title: The created ios .dSYM.zip file's path
-  - BITRISE_APK_PATH: ""
+  - BITRISE_APK_PATH:
     opts:
       title: The created android .apk file's path
