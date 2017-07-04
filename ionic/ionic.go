@@ -85,7 +85,7 @@ func (builder *Model) BuildCommand() *command.Model {
 	}
 	//build command doesn't accept ios@3.x format. We must map its value to ios
 	for _, platform := range builder.platforms {
-		if platform === "ios@3.x" {
+		if platform == "ios@3.x" {
 			platformsMap = append(platformsMap, "ios")
 		} else {
 			platformsMap = append(platformsMap, platform)
