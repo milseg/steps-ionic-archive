@@ -91,7 +91,7 @@ func (builder *Model) BuildCommand() *command.Model {
 			platformsMap = append(platformsMap, platform)
 		}
 	}
-	cmdSlice = append(cmdSlice, builder.platforms...)
+	cmdSlice = append(cmdSlice, platformsMap...)
 
 	if builder.buildConfig != "" {
 		cmdSlice = append(cmdSlice, "--buildConfig", builder.buildConfig)
