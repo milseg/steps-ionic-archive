@@ -77,7 +77,7 @@ func (configs ConfigsModel) validate() error {
 		return fmt.Errorf("WorkDir: %s", err)
 	}
 
-	if err := input.ValidateWithOptions(configs.Platform, "ios,android", "ios", "android"); err != nil {
+	if err := input.ValidateWithOptions(configs.Platform, "ios,android", "ios", "ios@3.x", "android"); err != nil {
 		return fmt.Errorf("Platform: %s", err)
 	}
 

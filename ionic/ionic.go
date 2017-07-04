@@ -66,6 +66,7 @@ func (builder *Model) PlatformCommand(cmd string) *command.Model {
 
 // BuildCommand ...
 func (builder *Model) BuildCommand() *command.Model {
+	platformsMap := []string{}
 	cmdSlice := []string{}
 
 	if builder.ionicMajorVersion > 2 {
@@ -82,7 +83,14 @@ func (builder *Model) BuildCommand() *command.Model {
 	if builder.target != "" {
 		cmdSlice = append(cmdSlice, "--"+builder.target)
 	}
-
+	//build command doesn't accept ios@3.x format. We must map its value to ios
+	for _, platform := range builder.platforms {
+		if platform === "ios@3.x" {
+			platformsMap = append(platformsMap, "ios")
+		} else {
+			platformsMap = append(platformsMap, platform)
+		}
+	}
 	cmdSlice = append(cmdSlice, builder.platforms...)
 
 	if builder.buildConfig != "" {
